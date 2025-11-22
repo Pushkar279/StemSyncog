@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Schedule Meeting | StemSync</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <header>
+    <div class="container navbar">
+      <a href="index.html" class="logo">
+        <img src="assets/logo.png" alt="StemSync logo" />
+        StemSync
+      </a>
+      <nav>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="contact-info.html">Contact</a>
+        <a href="contact.html">Schedule</a>
+      </nav>
+    </div>
+  </header>
+  <header class="page-header" style="background:url('https://images.unsplash.com/photo-1525182008055-f88b95ff7980?auto=format&fit=crop&w=1600&q=80') center/cover;"><h1>Schedule a Meeting</h1></header>
+  <main class="container schedule-section">
+    <h1 class="section-title">Schedule Your Discovery Call</h1>
+    <div class="schedule-wrapper">
+      <form id="schedule-form" class="schedule-form">
+      <label>
+        Select a preferred date:
+        <input type="date" name="meeting_date" required />
+      </label>
+      <label>
+        Select a preferred time:
+        <input type="time" name="meeting_time" required />
+      </label>
+      <label>
+        Your Name:
+        <input type="text" name="name" required />
+      </label>
+      <label>
+        Email Address:
+        <input type="email" name="email" required />
+      </label>
+      <label>
+        Phone Number:
+        <input type="tel" name="phone" required />
+      </label>
+      <fieldset>
+        <legend>Are you the brand owner looking for more visibility?</legend>
+        <label><input type="radio" name="brand_owner" value="Yes" required /> Yes</label>
+        <label><input type="radio" name="brand_owner" value="No" /> No</label>
+      </fieldset>
+      <fieldset>
+        <legend>What do you need help with right now?</legend>
+        <label><input type="radio" name="help_needed" value="Start my social media branding" required /> Start my social media branding</label>
+        <label><input type="radio" name="help_needed" value="Scale my existing branding" /> Scale my existing branding</label>
+      </fieldset>
+      <fieldset>
+        <legend>Which platforms do you focus on? (select all that apply)</legend>
+        <label><input type="checkbox" name="platforms" value="YouTube" /> YouTube</label>
+        <label><input type="checkbox" name="platforms" value="Instagram" /> Instagram</label>
+        <label><input type="checkbox" name="platforms" value="Facebook" /> Facebook</label>
+        <label><input type="checkbox" name="platforms" value="LinkedIn" /> LinkedIn</label>
+        <label><input type="checkbox" name="platforms" value="All" /> All of the above</label>
+      </fieldset>
+      <fieldset>
+        <legend>When do you want to start?</legend>
+        <label><input type="radio" name="start_timeframe" value="This week" required /> This week</label>
+        <label><input type="radio" name="start_timeframe" value="1-2 weeks" /> In 1–2 weeks</label>
+        <label><input type="radio" name="start_timeframe" value="3-4 weeks" /> In 3–4 weeks</label>
+        <label><input type="radio" name="start_timeframe" value="After 1 month" /> After 1 month</label>
+        <label><input type="radio" name="start_timeframe" value="Custom" /> Custom / Other</label>
+      </fieldset>
+      <fieldset>
+        <legend>Do you already have a marketing budget?</legend>
+        <label><input type="radio" name="budget" value="Yes" required /> Yes</label>
+        <label><input type="radio" name="budget" value="No" /> No</label>
+      </fieldset>
+      <label>
+        Brand website or Instagram handle:
+        <input type="text" name="brand_url" />
+      </label>
+      <button type="submit" class="btn">Schedule the Meet</button>
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      &copy; <span id="year"></span> StemSync. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Handle form submission and send to Google Sheet & EmailJS (replace URLs/keys)
+    const form = document.getElementById('schedule-form');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const qs = new URLSearchParams(new FormData(form)).toString();
+
+      // Send to Google Apps Script endpoint via GET (no CORS issues)
+      try {
+        await fetch('https://script.google.com/macros/s/AKfycbwf8xMoxCta-Vcn84z7srxHenlWyPWlRGhErCCqhIzwUXyAS0e3zxtAgB8LAKzWqiPOcA/exec?' + qs, {
+          mode: 'no-cors'
+        });
+      } catch (err) { console.error(err); }
+
+      // 2. Send confirmation email via EmailJS (replace with your service IDs)
+      // emailjs.send('service_id','template_id', payload);
+
+      alert('Thank you! We will confirm your meeting within 48 hours via email, WhatsApp & Instagram DM.');
+      form.reset();
+    });
+  </script>
+</body>
+</html>
